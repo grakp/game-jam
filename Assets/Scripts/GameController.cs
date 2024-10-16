@@ -18,7 +18,7 @@ public class GameController : MonoBehaviour
             Debug.LogError("DialogueManager not found in the scene.");
             return;
         }
-        
+
         if (dialogueTriggers.Length > 0)
         {
             dialogueTriggers[0].OnDialogueFinished += TriggerNextDialogue;
@@ -28,14 +28,21 @@ public class GameController : MonoBehaviour
 
     private void TriggerNextDialogue()
     {
+        Debug.Log("TriggerNextDialogue called. Current index: " + currentDialogueIndex);
         dialogueTriggers[currentDialogueIndex].OnDialogueFinished -= TriggerNextDialogue;
         currentDialogueIndex++;
-        if (currentDialogueIndex < dialogueTriggers.Length && currentDialogueIndex < 2) // ensure only the first two dialogues play for now
+        if (currentDialogueIndex < dialogueTriggers.Length)
         {
             dialogueTriggers[currentDialogueIndex].OnDialogueFinished += TriggerNextDialogue;
+            dialogueManager.ShowDialogueBox();
+            Debug.Log("showing box");
             dialogueTriggers[currentDialogueIndex].TriggerDialogue();
         }
-
-        dialogueManager.HideDialogueBox();
+        else
+        {
+            Debug.Log("hiding box");
+            dialogueManager.HideDialogueBox();
+        }
+        
     }
 }

@@ -15,10 +15,15 @@ public class DialogueManager : MonoBehaviour
     private DialogueData currentDialogue;
     private int index;
     private Action onDialogueFinished;
+    private bool dialogueFinished = false;
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0)) // left click
+        if (dialogueFinished && Input.GetMouseButtonDown(0))
+        {
+            HideDialogueBox();
+        }
+        else if (Input.GetMouseButtonDown(0)) // left click
         {
             if (textComponent.text == currentDialogue.lines[index]) {
                 NextLine();
@@ -42,41 +47,12 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueData dialogueData, Action onDialogueFinished)
     {
-        if (dialogueData == null)
-        {
-            Debug.LogError("DialogueData is null.");
-            return;
-        }
-
-        if (dialogueData.lines == null || dialogueData.lines.Length == 0)
-        {
-            Debug.LogError("DialogueData lines are empty.");
-            return;
-        }
-
-        if (textComponent == null)
-        {
-            Debug.LogError("Text Component is not assigned.");
-            return;
-        }
-
-        if (speakerImage == null)
-        {
-            Debug.LogError("Speaker Image is not assigned.");
-            return;
-        }
-
-        if (dialogueBox == null)
-        {
-            Debug.LogError("Dialogue Box is not assigned.");
-            return;
-        }
-
         currentDialogue = dialogueData;
         index = 0;
         this.onDialogueFinished = onDialogueFinished;
         speakerImage.sprite = currentDialogue.speakerImage;
         dialogueBox.SetActive(true);
+        dialogueFinished = false; // reset flag
         StartCoroutine(TypeLine());
     }
 
@@ -106,6 +82,7 @@ public class DialogueManager : MonoBehaviour
         else
         {
             Debug.Log("Dialogue Finished");
+            dialogueFinished = true;
             onDialogueFinished?.Invoke(); // notify finished
         }
     }
@@ -123,5 +100,10 @@ public class DialogueManager : MonoBehaviour
     public void HideDialogueBox()
     {
         dialogueBox.SetActive(false);
+    }
+
+    public void ShowDialogueBox()
+    {
+        dialogueBox.SetActive(true);
     }
 }
