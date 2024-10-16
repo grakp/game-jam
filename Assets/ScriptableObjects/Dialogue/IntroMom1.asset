@@ -15,4 +15,4 @@ MonoBehaviour:
   lines:
   - "You\u2019re back honey! What a nice surprise to see you here after so long."
   - "Come sit, I\u2019ll make you your favourite tea!"
-  speakerImage: {fileID: -1452724332, guid: 20e604b381a1347e4a21b60968dd9f02, type: 3}
+  speakerImage: {fileID: 21300000, guid: 16b06b9a8f53b434daaf1fb4d4536357, type: 3}
