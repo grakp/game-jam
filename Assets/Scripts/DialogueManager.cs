@@ -52,7 +52,6 @@ public class DialogueManager : MonoBehaviour
         this.onDialogueFinished = onDialogueFinished;
         speakerImage.sprite = currentDialogue.speakerImage;
         dialogueBox.SetActive(true);
-        dialogueFinished = false; // reset flag
         StartCoroutine(TypeLine());
     }
 
@@ -99,7 +98,9 @@ public class DialogueManager : MonoBehaviour
 
     public void HideDialogueBox()
     {
+        Debug.Log("Hiding box");
         dialogueBox.SetActive(false);
+        dialogueFinished = false;
     }
 
     public void ShowDialogueBox()
