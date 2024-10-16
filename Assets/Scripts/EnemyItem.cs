@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class EnemyItem : MonoBehaviour
 {
-    public int itemIndex;
+    public int enemyIndex;
     private Vector3 originalScale;
     public float scaleFactor = 1.1f;
 
@@ -26,24 +26,24 @@ public class EnemyItem : MonoBehaviour
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     Debug.Log("hit enemy");
-                    LoadFightScene(hit.collider.gameObject);
+                    LoadFightScene(enemyIndex);
                 }
             }
         }
     }
 
-    private void LoadFightScene(GameObject enemy)
-{
-    string sceneName = EnemyManager.instance.GetFightSceneForEnemy(enemy);
-    if (!string.IsNullOrEmpty(sceneName))
+    private void LoadFightScene(int enemyIndex)
     {
-        SceneManager.LoadScene(sceneName);
+        string sceneName = EnemyManager.instance.GetFightSceneForEnemy(enemyIndex);
+        if (!string.IsNullOrEmpty(sceneName))
+        {
+            SceneManager.LoadScene(sceneName);
+        }
+        else
+        {
+            Debug.LogError("No fight scene found for the enemy: " + enemyIndex);
+        }
     }
-    else
-    {
-        Debug.LogError("No fight scene found for the enemy: " + enemy.name);
-    }
-}
 
     private void OnMouseEnter()
     {

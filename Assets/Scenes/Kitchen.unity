@@ -179,11 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15107789988854ffaafa1c1189bd0e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &444438694 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7265999138037067739, guid: 3e7839467566244df83107d054922ccc, type: 3}
-  m_PrefabInstance: {fileID: 1899186261}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &475667948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1955,8 +1950,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   possibleEnemies:
-  - {fileID: 444438694}
-  - {fileID: 7265999138037067739, guid: 3a5ce6e23e66348c89c27fe979ef3ed8, type: 3}
+  - {fileID: 11400000, guid: 1afdfd0e867b64bf19eaa071b53edf5f, type: 2}
+  - {fileID: 11400000, guid: 613dbb7382ad54ae6abf03558681bb1c, type: 2}
   fightScenes:
   - EyemaskFight
   - PhotographFight
