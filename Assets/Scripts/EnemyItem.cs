@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class CollectableItem : MonoBehaviour
+public class EnemyItem : MonoBehaviour
 {
     public int itemIndex;
     private Vector3 originalScale;
@@ -22,21 +23,27 @@ public class CollectableItem : MonoBehaviour
 
             if (hit.collider != null)
             {
-                if (hit.collider.CompareTag("Collectable"))
+                if (hit.collider.CompareTag("Enemy"))
                 {
-                    Debug.Log("hit collectable");
-                    Collect();
+                    Debug.Log("hit enemy");
+                    LoadFightScene(hit.collider.gameObject);
                 }
             }
         }
     }
 
-    private void Collect()
+    private void LoadFightScene(GameObject enemy)
+{
+    string sceneName = EnemyManager.instance.GetFightSceneForEnemy(enemy);
+    if (!string.IsNullOrEmpty(sceneName))
     {
-        Item item = InventoryManager.instance.possibleItems[itemIndex];
-        InventoryManager.instance.AddItem(item);
-        gameObject.SetActive(false);
+        SceneManager.LoadScene(sceneName);
     }
+    else
+    {
+        Debug.LogError("No fight scene found for the enemy: " + enemy.name);
+    }
+}
 
     private void OnMouseEnter()
     {
