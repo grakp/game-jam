@@ -51,7 +51,6 @@ public class PlayerController : MonoBehaviour
     public void Move(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-        Debug.Log("moving");
 
         animator.SetBool("isWalking", true);
 
