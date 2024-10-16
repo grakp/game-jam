@@ -10,8 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f36e23257fee747dfa40055368e5f4e6, type: 3}
-  m_Name: apple2
+  m_Name: HotTea
   m_EditorClassIdentifier: 
-  itemName: apple2
-  description: oh
-  image: {fileID: -562236356, guid: 2f7cac83a38834c038fd0ea0d396e1c7, type: 3}
+  itemName: Hot Tea
+  image: {fileID: 1517106429, guid: 026aff6334b9a4497a0eabe0eca4c9b3, type: 3}
