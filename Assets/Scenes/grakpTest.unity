@@ -521,6 +521,12 @@ MonoBehaviour:
   - omg you're so peepeepoo
   - oikasdhofik ok
   textSpeed: 0.1
+  speakerImage: {fileID: 2028116903}
+  speakers:
+  - name: player
+    image: {fileID: -388049981, guid: aaebd87d087864248bfb42c9174add62, type: 3}
+  - name: mom
+    image: {fileID: -1452724332, guid: 20e604b381a1347e4a21b60968dd9f02, type: 3}
 --- !u!114 &1120190704 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8280490052366606490, guid: b19ea2329227e4ea2a5147b6bb267fda, type: 3}
@@ -806,7 +812,7 @@ GameObject:
   - component: {fileID: 2028116904}
   - component: {fileID: 2028116903}
   m_Layer: 5
-  m_Name: Talker
+  m_Name: Speaker
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -828,7 +834,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -79.4577, y: 28.52864}
+  m_AnchoredPosition: {x: -347.4577, y: -133.47133}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2028116903

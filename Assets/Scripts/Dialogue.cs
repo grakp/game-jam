@@ -2,12 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
+using UnityEngine.UI;
 
 public class Dialogue : MonoBehaviour
 {
     public TextMeshProUGUI textComponent;
     public string[] lines;
     public float textSpeed;
+    public Image speakerImage;
+    public Speaker[] speakers;
 
     private int index;
 
@@ -34,6 +38,7 @@ public class Dialogue : MonoBehaviour
     void StartDialogue()
     {
         index = 0;
+        SetSpeakerImage();
         StartCoroutine(TypeLine());
     }
 
@@ -53,11 +58,24 @@ public class Dialogue : MonoBehaviour
         {
             index++;
             textComponent.text = string.Empty;
+            SetSpeakerImage(); // update image
             StartCoroutine(TypeLine());
         }
         else
         {
             gameObject.SetActive(false);
+        }
+    }
+
+    private void SetSpeakerImage()
+    {
+        if (index < speakers.Length)
+        {
+            speakerImage.sprite = speakers[index].image;
+        }
+        else
+        {
+            speakerImage.sprite = null; 
         }
     }
 }
