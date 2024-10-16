@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
         Debug.Log("TriggerNextDialogue called. Current index: " + currentDialogueIndex);
         dialogueTriggers[currentDialogueIndex].OnDialogueFinished -= TriggerNextDialogue;
         currentDialogueIndex++;
+        
         if (currentDialogueIndex < dialogueTriggers.Length)
         {
             dialogueTriggers[currentDialogueIndex].OnDialogueFinished += TriggerNextDialogue;
