@@ -23,4 +23,12 @@ public class InventorySlot : MonoBehaviour
         inventoryItem.InitializeItem(item);
     }
 
+    public bool IsEmpty
+    {
+        get
+        {
+            return transform.childCount == 0;
+        }
+    }
+
 }

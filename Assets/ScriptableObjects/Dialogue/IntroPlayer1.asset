@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lines:
   - '*I''ve missed my mom...*'
-  speakerImage: {fileID: -388049981, guid: aaebd87d087864248bfb42c9174add62, type: 3}
+  speakerImage: {fileID: 21300000, guid: acc83613168cf4f11a9a7e28c30d8aa2, type: 3}
