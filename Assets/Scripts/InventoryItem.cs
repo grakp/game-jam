@@ -10,7 +10,7 @@ public class InventoryItem : MonoBehaviour
     [HideInInspector] public Item item;
 
     [Header("UI")]
-    public UnityEngine.UI.Image image;
+    public UnityEngine.UI.Image itemImage;
     public void Start()
     {
         InitializeItem(item);
@@ -19,6 +19,14 @@ public class InventoryItem : MonoBehaviour
     public void InitializeItem(Item newItem)
     {
         item = newItem;
-        image.sprite = newItem.image;
+        if (itemImage != null)
+        {
+            itemImage.sprite = newItem.image;
+        }
+        else
+        {
+            Debug.LogWarning("ItemImage is not assigned in the InventoryItem script.");
+        }
+        
     }
 }
