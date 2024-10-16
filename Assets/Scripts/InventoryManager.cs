@@ -9,7 +9,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventoryItemPrefab;
 
     // testing
-    public Item[] startItems;
+    public Item[] possibleItems;
 
     private void Awake()
     {
@@ -18,10 +18,10 @@ public class InventoryManager : MonoBehaviour
 
     private void Start()
     {
-        foreach (var item in startItems)
-        {
-            AddItem(item);
-        }
+        // foreach (var item in startItems) // testing
+        // {
+        //     AddItem(item);
+        // }
     }
 
     public void AddItem(Item item)
@@ -31,14 +31,12 @@ public class InventoryManager : MonoBehaviour
         {
             InventorySlot slot = inventorySlots[i];
             InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
-            Debug.Log($"Slot {i}: {(itemInSlot == null ? "Empty" : "Occupied")}");
+    
             if (itemInSlot == null) {
-                Debug.Log($"Adding item to slot {i}");
                 SpawnNewItem(item, slot);
                 return;
             }
         }
-        Debug.Log("No empty slots available");
     }
 
     public void SpawnNewItem(Item item, InventorySlot slot)

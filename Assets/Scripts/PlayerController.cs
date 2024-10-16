@@ -41,6 +41,14 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isWalking", moveInput.sqrMagnitude > 0);
         animator.SetFloat("LastInputX", moveInput.x);
         animator.SetFloat("LastInputY", moveInput.y);
+
+        Vector3 position = transform.position;
+        Vector3 viewportPosition = Camera.main.WorldToViewportPoint(position);
+
+        viewportPosition.x = Mathf.Clamp(viewportPosition.x, 0.05f, 0.95f);
+        viewportPosition.y = Mathf.Clamp(viewportPosition.y, 0.05f, 0.95f);
+
+        transform.position = Camera.main.ViewportToWorldPoint(viewportPosition);
     }
 
     private void FixedUpdate()
