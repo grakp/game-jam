@@ -40,7 +40,10 @@ public class CollectableItem : MonoBehaviour
         DialogueController dialogueController = GameObject.Find("DialogueController").GetComponent<DialogueController>();
         if (dialogueController != null)
         {
-            dialogueController.OnActionCompleted(3); // hard-coded for kitchen scene
+            if (item.name == "HotTea")
+            {
+                dialogueController.OnActionCompleted(3); // hard-coded for kitchen scene
+            }
         }
 
         gameObject.SetActive(false);

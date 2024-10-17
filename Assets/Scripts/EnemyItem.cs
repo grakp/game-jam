@@ -6,17 +6,21 @@ using UnityEngine.SceneManagement;
 public class EnemyItem : MonoBehaviour
 {
     public int enemyIndex;
-    private Vector3 originalScale;
     public float scaleFactor = 1.1f;
 
+    private Vector3 originalScale;
+    private DialogueController dialogueController;
+    private bool dialogueTriggered = false;
+    
     private void Start()
     {
         originalScale = transform.localScale;
+        dialogueController = FindObjectOfType<DialogueController>();
     }
     
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !dialogueTriggered)
         {
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
@@ -27,17 +31,29 @@ public class EnemyItem : MonoBehaviour
                 {
                     Debug.Log("hit enemy");
                     GameStateManager.instance.SavePlayerState(gameObject);
-                    LoadFightScene(enemyIndex);
+                    dialogueTriggered = true;
+                    TriggerDialogueAndLoadFightScene();
                 }
             }
         }
     }
 
-    private void LoadFightScene(int enemyIndex)
+    private void TriggerDialogueAndLoadFightScene()
+    {
+        if (dialogueController != null)
+        {
+            // trigger the dialogue and pass a callback to load the fight scene after the dialogue finishes
+            dialogueController.TriggerDialogueForEnemy(enemyIndex, () => StartCoroutine(LoadFightScene(enemyIndex)));
+        }
+    }
+
+    private IEnumerator LoadFightScene(int enemyIndex)
     {
         string sceneName = EnemyManager.instance.GetFightSceneForEnemy(enemyIndex);
         if (!string.IsNullOrEmpty(sceneName))
         {
+            Debug.Log("Loading fight scene: " + sceneName);
+            yield return null;
             SceneManager.LoadScene(sceneName);
         }
         else

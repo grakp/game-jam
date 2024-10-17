@@ -15,7 +15,20 @@ public class DialogueTrigger : MonoBehaviour
         dialogueManager = FindObjectOfType<DialogueManager>();
         if (dialogueManager == null)
         {
-            Debug.LogError("DialogueManager not found in the scene.");
+            Debug.Log("DialogueManager not found in the scene.");
+        }
+        else
+        {
+            Debug.Log("DialogueManager found: " + dialogueManager.name);
+        }
+
+        if (dialogueData == null)
+        {
+            Debug.Log("DialogueData is not assigned.");
+        }
+        else
+        {
+            Debug.Log("DialogueData assigned: " + dialogueData.name);
         }
     }
 
@@ -27,7 +40,7 @@ public class DialogueTrigger : MonoBehaviour
         }
         else
         {
-            Debug.LogError("DialogueManager or DialogueData is null.");
+            Debug.Log("DialogueManager or DialogueData is null.");
         }
     }
 }

@@ -23,7 +23,6 @@ public class DialogueManager : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && IsPointerOverUIElementWithTag("DialogueBox"))
         {   
-            Debug.Log("Current line: " + currentDialogue.lines[index]);
             if (isLineFullyDisplayed)
             {
                 Debug.Log("line fully shown already, showing next line");
@@ -45,13 +44,6 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueData dialogueData, Action onDialogueFinished)
     {
-        if (!GameStateManager.instance.IsFirstLoad())
-        {
-            Debug.Log("Not the first load, skipping dialogue.");
-            return;
-        }
-
-        // GameStateManager.instance.SetFirstLoad(false);
         ShowDialogueBox();
         currentDialogue = dialogueData;
         textComponent.text = string.Empty;

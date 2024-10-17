@@ -8,7 +8,10 @@ public class GameStateManager : MonoBehaviour
 
     private Vector3 playerPosition;
     private string previousSceneName;
-    private bool isFirstLoad = true;
+    private bool returningFromBattle = false;
+    private bool battleWon = false;
+    private int victoryDialogueIndex;
+    private bool showVictoryDialogue;
 
     private void Awake()
     {
@@ -38,14 +41,48 @@ public class GameStateManager : MonoBehaviour
     {
         return previousSceneName;
     }
-
-    public bool IsFirstLoad()
+    public void SetBattleWon(bool won)
     {
-        return isFirstLoad;
+        battleWon = won;
     }
 
-    public void SetFirstLoad(bool value)
+    public bool IsBattleWon()
     {
-        isFirstLoad = value;
+        return battleWon;
+    }
+
+    public void SetVictoryDialogueIndex(int index)
+    {
+        victoryDialogueIndex = index;
+    }
+
+    public int GetVictoryDialogueIndex()
+    {
+        return victoryDialogueIndex;
+    }
+
+    public bool ShouldShowVictoryDialogue()
+    {
+        return showVictoryDialogue;
+    }
+
+    public void SetShowVictoryDialogue(bool value)
+    {
+        showVictoryDialogue = value;
+    }
+    
+    public void ResetShowVictoryDialogue()
+    {
+        showVictoryDialogue = false;
+    }
+
+    public void SetReturningFromBattle(bool value)
+    {
+        returningFromBattle = value;
+    }
+
+    public bool IsReturningFromBattle()
+    {
+        return returningFromBattle;
     }
 }
