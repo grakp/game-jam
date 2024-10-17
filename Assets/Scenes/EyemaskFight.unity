@@ -277,10 +277,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   inventoryItemPrefab: {fileID: 2403002505989162501, guid: 894d6e434d39a47a68d44e863f20bade, type: 3}
-  possibleItems:
-  - {fileID: 11400000, guid: 1a7b1444f30f4459c8416d1fc188a087, type: 2}
-  - {fileID: 11400000, guid: 56428a943a31b4f7faa9e1f3b0498119, type: 2}
-  - {fileID: 11400000, guid: 6c68115a17765496dac7b775fddc9250, type: 2}
+  possibleItems: []
 --- !u!4 &475667950
 Transform:
   m_ObjectHideFlags: 0
