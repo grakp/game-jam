@@ -15,3 +15,5 @@ MonoBehaviour:
   enemyName: Eyemask
   enemyPrefab: {fileID: 7265999138037067739, guid: 3e7839467566244df83107d054922ccc, type: 3}
   fightScene: EyemaskFight
+  health: 50
+  damage: 15
