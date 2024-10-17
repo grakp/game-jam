@@ -26,6 +26,7 @@ public class EnemyItem : MonoBehaviour
                 if (hit.collider.CompareTag("Enemy"))
                 {
                     Debug.Log("hit enemy");
+                    GameStateManager.instance.SavePlayerState(gameObject);
                     LoadFightScene(enemyIndex);
                 }
             }

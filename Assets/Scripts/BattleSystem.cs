@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using System;
+using UnityEngine.SceneManagement;
 
-public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST }
+public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST, WAIT }
 
 public class BattleSystem : MonoBehaviour
 {
@@ -100,9 +100,10 @@ public class BattleSystem : MonoBehaviour
         string line = "Weak.";
         StartCoroutine(TypeText(line));
 
-        yield return new WaitForSeconds(3f);
-
         state = BattleState.ENEMYTURN;
+
+        yield return new WaitForSeconds(3f);
+        
         StartCoroutine(EnemyTurn());
     }
 
@@ -114,9 +115,10 @@ public class BattleSystem : MonoBehaviour
         string line = "You feel renewed strength!";
         StartCoroutine(TypeText(line));
 
+        state = BattleState.ENEMYTURN;
+
         yield return new WaitForSeconds(3f);
 
-        state = BattleState.ENEMYTURN;
         StartCoroutine(EnemyTurn());
     }
 
@@ -132,6 +134,7 @@ public class BattleSystem : MonoBehaviour
         SpriteRenderer enemySpriteRenderer = enemyUnit.GetComponent<SpriteRenderer>();
         Sprite originalSprite = enemySpriteRenderer.sprite;
         enemySpriteRenderer.sprite = hurtSprite;
+        state = BattleState.WAIT;
 
         yield return new WaitForSeconds(3f);
 
@@ -141,7 +144,7 @@ public class BattleSystem : MonoBehaviour
         if (isDead)
         {
             state = BattleState.WON;
-            EndBattle();
+            StartCoroutine(EndBattle());
         }
         else
         {
@@ -161,13 +164,14 @@ public class BattleSystem : MonoBehaviour
         bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
         playerUnit.TakeDamage(enemyUnit.damage);
         playerHUD.SetHP(playerUnit.currentHP);
+        state = BattleState.WAIT;
 
         yield return new WaitForSeconds(1f);
 
         if (isDead)
         {
             state = BattleState.LOST;
-            EndBattle();
+            StartCoroutine(EndBattle());
         }
         else
         {
@@ -176,15 +180,46 @@ public class BattleSystem : MonoBehaviour
         }
     }
 
-    private void EndBattle()
+    private IEnumerator EndBattle()
     {
         if (state == BattleState.WON)
         {
-            dialogueText.text = "You won the battle!";
+            string line = "You won the battle!";
+            StartCoroutine(TypeText(line));
+            state = BattleState.WAIT;
+            yield return new WaitForSeconds(2f);
+
+            StartCoroutine(ReturnToPreviousScene());
         }
         else if (state == BattleState.LOST)
         {
             dialogueText.text = "You were defeated.";
         }
+    }
+
+    private IEnumerator ReturnToPreviousScene()
+    {
+        yield return new WaitForSeconds(2f); // wait for 2 seconds to show the victory message
+        string previousSceneName = GameStateManager.instance.GetPreviousSceneName();
+        SceneManager.LoadScene(previousSceneName);
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == GameStateManager.instance.GetPreviousSceneName())
+        {
+            GameObject player = GameObject.FindWithTag("Player");
+            GameStateManager.instance.RestorePlayerState(player);
+        }
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 }
