@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0978c71724c0d44579d068c701152a34, type: 3}
-  m_Name: Eyemask
+  m_Name: Photograph
   m_EditorClassIdentifier: 
-  enemyName: Eyemask
-  enemyPrefab: {fileID: 7265999138037067739, guid: 3e7839467566244df83107d054922ccc, type: 3}
-  fightScene: EyemaskFight
-  health: 50
-  damage: 15
+  enemyName: Photograph
+  enemyPrefab: {fileID: 7265999138037067739, guid: 3a5ce6e23e66348c89c27fe979ef3ed8, type: 3}
+  fightScene: PhotographFight
+  health: 80
+  damage: 30

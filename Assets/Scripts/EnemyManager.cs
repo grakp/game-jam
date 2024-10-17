@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public static EnemyManager instance;
-    public List<GameObject> possibleEnemies;
+    public List<Enemy> possibleEnemies;
     public List<string> fightScenes;
 
     private void Awake()
@@ -21,13 +21,11 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public string GetFightSceneForEnemy(GameObject enemy)
+    public string GetFightSceneForEnemy(int enemyIndex)
     {
-        int index = possibleEnemies.IndexOf(enemy);
-        Debug.Log("Enemy: " + enemy.name + ", Index: " + index); // Add debug log
-        if (index >= 0 && index < fightScenes.Count)
+        if (enemyIndex >= 0 && enemyIndex < possibleEnemies.Count)
         {
-            return fightScenes[index];
+            return possibleEnemies[enemyIndex].fightScene;
         }
         return null;
     }
