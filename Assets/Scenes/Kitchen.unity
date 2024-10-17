@@ -483,14 +483,13 @@ GameObject:
   - component: {fileID: 605164924}
   - component: {fileID: 605164926}
   - component: {fileID: 605164925}
-  - component: {fileID: 605164927}
   m_Layer: 5
   m_Name: DialogueBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &605164924
 RectTransform:
   m_ObjectHideFlags: 0
@@ -550,22 +549,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 605164923}
   m_CullTransparentMesh: 1
---- !u!114 &605164927
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 605164923}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca3b6df67368f4987a53fa21c12e66ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textComponent: {fileID: 1437091962}
-  textSpeed: 0.05
-  speakerImage: {fileID: 2028116903}
-  dialogueBox: {fileID: 605164923}
 --- !u!1 &745018617
 GameObject:
   m_ObjectHideFlags: 0
@@ -1770,6 +1753,54 @@ MonoBehaviour:
   tilemap: {fileID: 782123677}
   sceneChangeTile: {fileID: 11400000, guid: 5187cd64e447343f0be5e1899c9facf5, type: 2}
   sceneName: LivingRoom
+--- !u!1 &818427811
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 818427813}
+  - component: {fileID: 818427812}
+  m_Layer: 0
+  m_Name: DialogueManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &818427812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818427811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca3b6df67368f4987a53fa21c12e66ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textComponent: {fileID: 1437091962}
+  textSpeed: 0.05
+  speakerImage: {fileID: 2028116903}
+  dialogueBox: {fileID: 605164923}
+--- !u!4 &818427813
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 818427811}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.0040618, y: -0.09189908, z: 92.66407}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1037783516
 GameObject:
   m_ObjectHideFlags: 0
@@ -1825,6 +1856,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15107789988854ffaafa1c1189bd0e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1404513311
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1404513313}
+  - component: {fileID: 1404513312}
+  m_Layer: 0
+  m_Name: GameStateManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1404513312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404513311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f5f432bbb890e4bd290ec5831bff0ba0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1404513313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1404513311}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.0040618, y: -0.09189908, z: 92.66407}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1437091960
 GameObject:
   m_ObjectHideFlags: 0
@@ -1970,7 +2045,7 @@ GameObject:
   - component: {fileID: 1475321067}
   - component: {fileID: 1475321066}
   m_Layer: 0
-  m_Name: GameController
+  m_Name: DialogueController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2123,7 +2198,7 @@ GameObject:
   - component: {fileID: 1716154871}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4947,3 +5022,5 @@ SceneRoots:
   - {fileID: 180127892}
   - {fileID: 1481751539}
   - {fileID: 1899186261}
+  - {fileID: 1404513313}
+  - {fileID: 818427813}

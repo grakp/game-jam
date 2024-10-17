@@ -91,7 +91,19 @@ public class InventoryManager : MonoBehaviour
         // add collected items back to slots
         foreach (var item in collectedItems.ToArray())
         {
-            AddItem(item);
+            AddItemToUI(item);
         }
     }
+
+    public void AddItemToUI(Item item)
+{
+    foreach (var slot in inventorySlots)
+    {
+        if (slot.IsEmpty)
+        {
+            SpawnNewItem(item, slot);
+            return;
+        }
+    }
+}
 }
