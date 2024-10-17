@@ -27,9 +27,11 @@ public class EnemyItem : MonoBehaviour
 
             if (hit.collider != null)
             {
-                if (hit.collider.CompareTag("Enemy"))
+                EnemyItem clickedEnemy = hit.collider.GetComponent<EnemyItem>();
+                //if (hit.collider.CompareTag("Enemy"))
+                if (clickedEnemy != null && clickedEnemy == this)
                 {
-                    Debug.Log("hit enemy");
+                    Debug.Log("Hit enemy: " + gameObject.name + " with enemyIndex: " + enemyIndex);
                     GameStateManager.instance.SavePlayerState(gameObject);
                     dialogueTriggered = true;
                     TriggerDialogueAndLoadFightScene();
