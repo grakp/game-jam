@@ -7,8 +7,8 @@ public class GameStateManager : MonoBehaviour
     public static GameStateManager instance;
 
     private Vector3 playerPosition;
-    private List<Item> playerInventory = new List<Item>();
     private string previousSceneName;
+    private bool isFirstLoad = true;
 
     private void Awake()
     {
@@ -37,5 +37,15 @@ public class GameStateManager : MonoBehaviour
     public string GetPreviousSceneName()
     {
         return previousSceneName;
+    }
+
+    public bool IsFirstLoad()
+    {
+        return isFirstLoad;
+    }
+
+    public void SetFirstLoad(bool value)
+    {
+        isFirstLoad = value;
     }
 }

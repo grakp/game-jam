@@ -47,11 +47,18 @@ public class DialogueManager : MonoBehaviour
 
     public void StartDialogue(DialogueData dialogueData, Action onDialogueFinished)
     {
+        if (!GameStateManager.instance.IsFirstLoad())
+        {
+            Debug.Log("Not the first load, skipping dialogue.");
+            return;
+        }
+
+        GameStateManager.instance.SetFirstLoad(false);
+        dialogueBox.SetActive(true);
         currentDialogue = dialogueData;
         index = 0;
         this.onDialogueFinished = onDialogueFinished;
         speakerImage.sprite = currentDialogue.speakerImage;
-        dialogueBox.SetActive(true);
         StartCoroutine(TypeLine());
     }
 
