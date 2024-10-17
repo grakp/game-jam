@@ -75,6 +75,51 @@ public class BattleSystem : MonoBehaviour
         StartCoroutine(PlayerAttack());
     }
 
+    public void OnHealButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+        {
+            return;
+        }
+
+        StartCoroutine(PlayerHeal());
+    }
+
+    public void OnRunButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+        {
+            return;
+        }
+
+        StartCoroutine(RunAway());
+    }
+
+    private IEnumerator RunAway()
+    {
+        string line = "Weak.";
+        StartCoroutine(TypeText(line));
+
+        yield return new WaitForSeconds(3f);
+
+        state = BattleState.ENEMYTURN;
+        StartCoroutine(EnemyTurn());
+    }
+
+    private IEnumerator PlayerHeal()
+    {
+        playerUnit.Heal(5);
+
+        playerHUD.SetHP(playerUnit.currentHP);
+        string line = "You feel renewed strength!";
+        StartCoroutine(TypeText(line));
+
+        yield return new WaitForSeconds(3f);
+
+        state = BattleState.ENEMYTURN;
+        StartCoroutine(EnemyTurn());
+    }
+
     private IEnumerator PlayerAttack()
     {
         bool isDead = enemyUnit.TakeDamage(playerUnit.damage);
