@@ -1,2 +1,2 @@
 # game-jam
-48 hour game jam because why not?
+Music provided by: [z3r0](https://www.youtube.com/@z3r0CopyrightFreeMusic)
