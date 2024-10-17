@@ -16,6 +16,8 @@ public void QuitGame(){
 
 }
 
-
+public void RestartGame(){
+    SceneManager.LoadSceneAsync(0); 
+}
 
 }
