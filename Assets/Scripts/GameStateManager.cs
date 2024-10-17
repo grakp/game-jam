@@ -10,7 +10,7 @@ public class GameStateManager : MonoBehaviour
     private string previousSceneName;
     private bool returningFromBattle = false;
     private bool battleWon = false;
-    private int victoryDialogueIndex;
+    private int victoryDialogueIndex = -1;
     private bool showVictoryDialogue;
 
     private void Awake()
@@ -61,6 +61,11 @@ public class GameStateManager : MonoBehaviour
         return victoryDialogueIndex;
     }
 
+    public void ResetVictoryDialogueIndex()
+    {
+        victoryDialogueIndex = -1;
+    }
+
     public bool ShouldShowVictoryDialogue()
     {
         return showVictoryDialogue;
@@ -70,7 +75,7 @@ public class GameStateManager : MonoBehaviour
     {
         showVictoryDialogue = value;
     }
-    
+
     public void ResetShowVictoryDialogue()
     {
         showVictoryDialogue = false;

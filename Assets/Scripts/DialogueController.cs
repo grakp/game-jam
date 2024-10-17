@@ -27,16 +27,30 @@ public class DialogueController : MonoBehaviour
         {
             PlayDialogues(0, 2);
         }
-        // check if a battle was won and trigger the appropriate dialogue
-        else if (GameStateManager.instance.ShouldShowVictoryDialogue())
-        {
-            int victoryDialogueIndex = GameStateManager.instance.GetVictoryDialogueIndex();
-            TriggerDialogueForVictory(victoryDialogueIndex);
 
-            // reset flags
-            GameStateManager.instance.ResetShowVictoryDialogue();
-            GameStateManager.instance.SetBattleWon(false);
+        // check if a battle was won and trigger the appropriate dialogue
+        if (GameStateManager.instance.ShouldShowVictoryDialogue())
+        {
+            Debug.Log("Battle won. Triggering victory dialogue: " + GameStateManager.instance.GetVictoryDialogueIndex());
+            StartCoroutine(DelayedTriggerVictoryDialogue());
         }
+    }
+
+    private IEnumerator DelayedTriggerVictoryDialogue()
+    {
+        yield return new WaitForSeconds(0.5f); // delay to ensure everything is initialized
+
+        int victoryDialogueIndex = GameStateManager.instance.GetVictoryDialogueIndex();
+
+        if (victoryDialogueIndex != -1)  
+        {
+            TriggerDialogueForVictory(victoryDialogueIndex);
+            GameStateManager.instance.ResetVictoryDialogueIndex();
+        }
+
+        // reset flags
+        GameStateManager.instance.ResetShowVictoryDialogue();
+        GameStateManager.instance.SetBattleWon(false);
     }
 
     public void PlayDialogues(int startIndex, int count)
@@ -105,6 +119,7 @@ public class DialogueController : MonoBehaviour
         else
         {
             // no more dialogues, invoke the post-dialogue action
+            dialogueManager.HideDialogueBox();
             postDialogueAction?.Invoke();
         }
     }
@@ -145,7 +160,6 @@ public class DialogueController : MonoBehaviour
     {
         dialogueManager.ShowDialogueBox();
 
-        Debug.Log("Triggering victory dialogue: " + victoryDialogueIndex);
         if (victoryDialogueIndex >= 0 && victoryDialogueIndex < dialogueTriggers.Length)
         {
             dialogueTriggers[victoryDialogueIndex].OnDialogueFinished += OnDialogueFinished;

@@ -104,10 +104,10 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator RunAway()
     {
+        state = BattleState.ENEMYTURN;
+
         string line = "Weak.";
         StartCoroutine(TypeText(line));
-
-        state = BattleState.ENEMYTURN;
 
         yield return new WaitForSeconds(3f);
         
@@ -200,17 +200,18 @@ public class BattleSystem : MonoBehaviour
             {
                 if (enemyUnit.unitName == "Eyemask")
                 {
-                    SetVictoryDialogueIndex(2);
+                    Debug.Log("Eyemask defeated");
+                    GameStateManager.instance.SetVictoryDialogueIndex(2);
                 }
                 else if (enemyUnit.unitName == "Photograph")
                 {
-                    SetVictoryDialogueIndex(3);
+                    Debug.Log("Photograph defeated");
+                    GameStateManager.instance.SetVictoryDialogueIndex(3);
                 }
             }
 
             GameStateManager.instance.SetBattleWon(true);
             GameStateManager.instance.SetShowVictoryDialogue(true);
-            // GameStateManager.instance.SetVictoryDialogueIndex(victoryDialogueIndex);
 
             StartCoroutine(ReturnToPreviousScene());
         }
