@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System;
 
 public enum BattleState { START, PLAYERTURN, ENEMYTURN, WON, LOST, WAIT }
 
@@ -20,12 +21,14 @@ public class BattleSystem : MonoBehaviour
     public BattleState state;
 
     [SerializeField] private Sprite hurtSprite;
-
     private float textSpeed = 0.05f;
+    private int victoryDialogueIndex;
+    
 
     void Start()
     {
         state = BattleState.START;
+        GameStateManager.instance.SetReturningFromBattle(true);
         StartCoroutine(SetupBattle());
     }
 
@@ -56,6 +59,8 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator TypeText(string line)
     {
+        BattleState prevState = state;
+        state = BattleState.WAIT;
         dialogueText.text = ""; // clear the text before typing
 
         foreach (char c in line.ToCharArray())
@@ -63,6 +68,8 @@ public class BattleSystem : MonoBehaviour
             dialogueText.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
+
+        state = prevState;
     }
 
     public void OnAttackButton()
@@ -97,10 +104,10 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator RunAway()
     {
+        state = BattleState.ENEMYTURN;
+
         string line = "Weak.";
         StartCoroutine(TypeText(line));
-
-        state = BattleState.ENEMYTURN;
 
         yield return new WaitForSeconds(3f);
         
@@ -109,7 +116,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator PlayerHeal()
     {
-        playerUnit.Heal(5);
+        playerUnit.Heal(20);
 
         playerHUD.SetHP(playerUnit.currentHP);
         string line = "You feel renewed strength!";
@@ -162,7 +169,6 @@ public class BattleSystem : MonoBehaviour
         yield return new WaitForSeconds(1f);
 
         bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
-        playerUnit.TakeDamage(enemyUnit.damage);
         playerHUD.SetHP(playerUnit.currentHP);
         state = BattleState.WAIT;
 
@@ -187,13 +193,38 @@ public class BattleSystem : MonoBehaviour
             string line = "You won the battle!";
             StartCoroutine(TypeText(line));
             state = BattleState.WAIT;
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
+
+            // hard coded which enemy was defeated and set the victory dialogue index accordingly lol
+            if (enemyUnit != null)
+            {
+                if (enemyUnit.unitName == "Eyemask")
+                {
+                    Debug.Log("Eyemask defeated");
+                    GameStateManager.instance.SetVictoryDialogueIndex(2);
+                }
+                else if (enemyUnit.unitName == "Photograph")
+                {
+                    Debug.Log("Photograph defeated");
+                    GameStateManager.instance.SetVictoryDialogueIndex(3);
+                }
+                 else if (enemyUnit.unitName == "Boss")
+                {
+                    Debug.Log("Boss defeated");
+                    SceneManager.LoadScene("Win");
+                    yield break; // exit the coroutine
+                }
+            }
+
+            GameStateManager.instance.SetBattleWon(true);
+            GameStateManager.instance.SetShowVictoryDialogue(true);
 
             StartCoroutine(ReturnToPreviousScene());
         }
         else if (state == BattleState.LOST)
         {
             dialogueText.text = "You were defeated.";
+            SceneManager.LoadScene("Lose");
         }
     }
 
@@ -201,7 +232,18 @@ public class BattleSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(2f); // wait for 2 seconds to show the victory message
         string previousSceneName = GameStateManager.instance.GetPreviousSceneName();
-        SceneManager.LoadScene(previousSceneName);
+
+        if (previousSceneName == "BedRoom")
+        {
+            SceneManager.LoadScene("Win");
+        }
+
+        else
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.LoadScene(previousSceneName);
+        }
+        
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -211,6 +253,11 @@ public class BattleSystem : MonoBehaviour
             GameObject player = GameObject.FindWithTag("Player");
             GameStateManager.instance.RestorePlayerState(player);
         }
+
+        GameStateManager.instance.SetReturningFromBattle(false);
+
+        // unsubscribe from the event to avoid multiple triggers
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnEnable()
@@ -221,5 +268,10 @@ public class BattleSystem : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void SetVictoryDialogueIndex(int index)
+    {
+        victoryDialogueIndex = index;
     }
 }

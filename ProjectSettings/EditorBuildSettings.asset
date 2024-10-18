@@ -18,6 +18,18 @@ EditorBuildSettings:
     path: Assets/Scenes/EyemaskFight.unity
     guid: 32b08a091cc5849029982fb4f66775e6
   - enabled: 1
+    path: Assets/Scenes/BossFight.unity
+    guid: f29f2d427231c4a3d97f6e8914e59844
+  - enabled: 1
     path: Assets/Scenes/BedRoom.unity
     guid: 6a1ff458805af4691b395fd082f82afa
+  - enabled: 1
+    path: Assets/Scenes/Lose.unity
+    guid: 3bcfb1b1a3e32488295f63be7ca703ae
+  - enabled: 1
+    path: Assets/Scenes/Win.unity
+    guid: 024edbb1d9cf94693beba6c0c5de0331
+  - enabled: 1
+    path: Assets/Scenes/PhotographFight.unity
+    guid: 639da7bf3f3694669ba8ad9bd1057086
   m_configObjects: {}

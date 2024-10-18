@@ -35,6 +35,17 @@ public class CollectableItem : MonoBehaviour
     {
         Item item = InventoryManager.instance.possibleItems[itemIndex];
         InventoryManager.instance.AddItem(item);
+
+        // assuming the DialogueController is attached to a GameObject named "DialogueController"
+        DialogueController dialogueController = GameObject.Find("DialogueController").GetComponent<DialogueController>();
+        if (dialogueController != null)
+        {
+            if (item.name == "HotTea")
+            {
+                dialogueController.OnActionCompleted(3); // hard-coded for kitchen scene
+            }
+        }
+
         gameObject.SetActive(false);
     }
 

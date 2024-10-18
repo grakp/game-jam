@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -15,80 +16,77 @@ public class DialogueManager : MonoBehaviour
     private DialogueData currentDialogue;
     private int index;
     private Action onDialogueFinished;
-    private bool dialogueFinished = false;
+    private Coroutine typingCoroutine;
+    private bool isLineFullyDisplayed;
 
     private void Update()
     {
-        if (dialogueFinished && Input.GetMouseButtonDown(0))
-        {
-            HideDialogueBox();
-        }
-        else if (Input.GetMouseButtonDown(0)) // left click
-        {
-            if (textComponent.text == currentDialogue.lines[index]) {
+        if (Input.GetMouseButtonDown(0) && IsPointerOverUIElementWithTag("DialogueBox"))
+        {   
+            if (isLineFullyDisplayed)
+            {
+                Debug.Log("line fully shown already, showing next line");
+                index++;
                 NextLine();
             }
-            else {
-                StopAllCoroutines();
+            else
+            {
+                Debug.Log("show current full line");
+                StopCoroutine(typingCoroutine);
                 string line = currentDialogue.lines[index];
                 bool isItalic = IsLineItalic(ref line);
                 textComponent.text = line; // shows full line
-                if (isItalic)
-                {
-                    textComponent.fontStyle = FontStyles.Italic;
-                }
-                else
-                {
-                    textComponent.fontStyle = FontStyles.Normal;
-                }
+                textComponent.fontStyle = isItalic ? FontStyles.Italic : FontStyles.Normal;
+                isLineFullyDisplayed = true;
             }
         }
     }
 
     public void StartDialogue(DialogueData dialogueData, Action onDialogueFinished)
     {
-        if (!GameStateManager.instance.IsFirstLoad())
-        {
-            Debug.Log("Not the first load, skipping dialogue.");
-            return;
-        }
-
-        GameStateManager.instance.SetFirstLoad(false);
-        dialogueBox.SetActive(true);
+        ShowDialogueBox();
         currentDialogue = dialogueData;
+        textComponent.text = string.Empty;
         index = 0;
+
         this.onDialogueFinished = onDialogueFinished;
         speakerImage.sprite = currentDialogue.speakerImage;
-        StartCoroutine(TypeLine());
+
+        NextLine();
     }
 
-    IEnumerator TypeLine()
+    private IEnumerator TypeLine()
     {
+        isLineFullyDisplayed = false;
         string line = currentDialogue.lines[index];
-        bool isItalic = IsLineItalic(ref line);
+        bool isItalic = IsLineItalic(ref line); // check if the line should be italic
 
-        textComponent.text = string.Empty;
+        textComponent.text = string.Empty; // clear the text component before typing
+        textComponent.fontStyle = isItalic ? FontStyles.Italic : FontStyles.Normal; // apply italic style to the whole line
 
         foreach (char c in line.ToCharArray())
         {
-            textComponent.text += isItalic ? $"<i>{c}</i>" : c.ToString();
+            textComponent.text += c;
             yield return new WaitForSeconds(textSpeed);
         }
+
+        isLineFullyDisplayed = true;
+        Debug.Log("incrementing index");
+        index++;
     }
+
 
     private void NextLine()
     {
-        if (index < currentDialogue.lines.Length - 1)
-        {
-            index++;
+        if (index < currentDialogue.lines.Length)
+        {   
             textComponent.text = string.Empty;
             speakerImage.sprite = currentDialogue.speakerImage; // update image
-            StartCoroutine(TypeLine());
+            typingCoroutine = StartCoroutine(TypeLine());
         }
         else
         {
-            Debug.Log("Dialogue Finished");
-            dialogueFinished = true;
+            Debug.Log("Dialogue lines finished");
             onDialogueFinished?.Invoke(); // notify finished
         }
     }
@@ -107,11 +105,32 @@ public class DialogueManager : MonoBehaviour
     {
         Debug.Log("Hiding box");
         dialogueBox.SetActive(false);
-        dialogueFinished = false;
     }
 
     public void ShowDialogueBox()
     {
+        Debug.Log("Showing box");
         dialogueBox.SetActive(true);
+    }
+
+    private bool IsPointerOverUIElementWithTag(string tag)
+    {
+        PointerEventData eventData = new PointerEventData(EventSystem.current)
+        {
+            position = Input.mousePosition
+        };
+
+        List<RaycastResult> results = new List<RaycastResult>();
+        EventSystem.current.RaycastAll(eventData, results);
+
+        foreach (RaycastResult result in results)
+        {
+            if (result.gameObject.CompareTag(tag))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
