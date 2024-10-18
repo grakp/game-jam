@@ -116,7 +116,7 @@ public class BattleSystem : MonoBehaviour
 
     private IEnumerator PlayerHeal()
     {
-        playerUnit.Heal(5);
+        playerUnit.Heal(20);
 
         playerHUD.SetHP(playerUnit.currentHP);
         string line = "You feel renewed strength!";
@@ -208,6 +208,12 @@ public class BattleSystem : MonoBehaviour
                     Debug.Log("Photograph defeated");
                     GameStateManager.instance.SetVictoryDialogueIndex(3);
                 }
+                 else if (enemyUnit.unitName == "Boss")
+                {
+                    Debug.Log("Boss defeated");
+                    SceneManager.LoadScene("Win");
+                    yield break; // exit the coroutine
+                }
             }
 
             GameStateManager.instance.SetBattleWon(true);
@@ -226,8 +232,18 @@ public class BattleSystem : MonoBehaviour
     {
         yield return new WaitForSeconds(2f); // wait for 2 seconds to show the victory message
         string previousSceneName = GameStateManager.instance.GetPreviousSceneName();
-        SceneManager.sceneLoaded += OnSceneLoaded;
-        SceneManager.LoadScene(previousSceneName);
+
+        if (previousSceneName == "BedRoom")
+        {
+            SceneManager.LoadScene("Win");
+        }
+
+        else
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+            SceneManager.LoadScene(previousSceneName);
+        }
+        
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

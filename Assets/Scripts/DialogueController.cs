@@ -11,7 +11,7 @@ public class DialogueController : MonoBehaviour
     private int currentDialogueIndex = 0;
     private Queue<int> dialogueQueue = new Queue<int>();
     private bool isPlayingDialogues = false;
-    private Action postDialogueAction;
+    public Action postDialogueAction;
 
     void Start()
     {
@@ -87,7 +87,7 @@ public class DialogueController : MonoBehaviour
         else
         {
             isPlayingDialogues = false;
-            dialogueManager.HideDialogueBox();
+            dialogueManager?.HideDialogueBox();
             Debug.Log("No more dialogues to trigger.");
             postDialogueAction?.Invoke();
         }
@@ -104,9 +104,17 @@ public class DialogueController : MonoBehaviour
     {
         Debug.Log("Dialogue finished.");
         // unsubscribe from the specific dialogue trigger that finished the dialogue
-        if (dialogueTriggers[currentDialogueIndex] != null)
+        if (dialogueTriggers != null && dialogueQueue.Count > 0)
         {
-            dialogueTriggers[currentDialogueIndex].OnDialogueFinished -= OnDialogueFinished;
+            int lastDialogueIndex = dialogueQueue.Peek(); // Get the current dialogue that was finished
+            if (lastDialogueIndex < dialogueTriggers.Length && dialogueTriggers[lastDialogueIndex] != null)
+            {
+                dialogueTriggers[lastDialogueIndex].OnDialogueFinished -= OnDialogueFinished;
+            }
+            else
+            {
+                Debug.LogError("Invalid lastDialogueIndex: " + lastDialogueIndex);
+            }
         }
 
         isPlayingDialogues = false;

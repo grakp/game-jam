@@ -28,13 +28,25 @@ public class EnemyItem : MonoBehaviour
             if (hit.collider != null)
             {
                 EnemyItem clickedEnemy = hit.collider.GetComponent<EnemyItem>();
-                //if (hit.collider.CompareTag("Enemy"))
+
                 if (clickedEnemy != null && clickedEnemy == this)
                 {
                     Debug.Log("Hit enemy: " + gameObject.name + " with enemyIndex: " + enemyIndex);
                     GameStateManager.instance.SavePlayerState(gameObject);
                     dialogueTriggered = true;
-                    TriggerDialogueAndLoadFightScene();
+
+                    if (enemyIndex == 2) // boss
+                    {
+                        dialogueController.PlayDialogues(0, 3);
+                        dialogueController.postDialogueAction = () => 
+                        {
+                            SceneManager.LoadScene("BossFight");
+                        };
+                    }
+                    else
+                    {
+                        TriggerDialogueAndLoadFightScene();
+                    }   
                 }
             }
         }
@@ -45,7 +57,7 @@ public class EnemyItem : MonoBehaviour
         if (dialogueController != null)
         {
             // trigger the dialogue and pass a callback to load the fight scene after the dialogue finishes
-            dialogueController.TriggerDialogueForEnemy(enemyIndex, () => StartCoroutine(LoadFightScene(enemyIndex)));
+            dialogueController.TriggerDialogueForEnemy(enemyIndex, () => StartCoroutine(LoadFightScene(enemyIndex)));            
         }
     }
 
